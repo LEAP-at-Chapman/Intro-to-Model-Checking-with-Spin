@@ -1,0 +1,208 @@
+\section{Predicate Logic}
+
+
+This appendix contains additional material. It would fit in after
+propositional logic and before temporal logic, for reasons explained
+below.
+
+
+\subsection{Introduction}
+
+Propositional logic is appropriate to specify situations dealing with
+finite data, see eg the traffic light example from the lectures. If
+one wants to add dynamic features, a good choice is often to add to
+the propositional operators (as eg $\neg,\et,\ldots$) temporal
+operators, which allow to specify temporal behaviour (as eg always,
+sometimes, until).
+
+\medskip\noindent In this section, we briefly look at an even more
+powerful extension, namely extending propositional logic by
+quantifiers (``for all'', ``there exists''). This allows us to talk
+about infinite structures, including data structures such as integers,
+lists, etc but also structures like time and hence about dynamic
+behaviour.
+
+\medskip\noindent Predicate logic is powerful enough to encode (more
+or less) everything that one ever might want to, but this
+expressiveness comes at a price: Contrary to propositional logic,
+predicate logic is not decidable (ie, there is no algorithm that takes
+as input an arbitrary formula $\phi$ and decides whether $\models\phi$
+or $\notmodels\phi$; any attempt at writing such an algorithm would
+run into the same difficulties as we encountered with Turing's halting
+problem, that is, such an algorithm would not be able to
+halt on all inputs). Nevertheless, predicate logic is at the basis of
+many important formalisms used for the specification and verification
+of programs and protocols and so is well worth knowing. Moreover,
+temporal logics such as LTL can be understood as a sophisticated way
+of limiting the expressive power of predicate logic just enough in
+order to make it decidable. 
+
+\subsection{Definitions}
+
+A  \emph{first-order language} $\cal L$ is specified by
+\begin{enumerate}
+\item a set $\cal F$ of \emph{function symbols} and a natural number
+  (called \emph{the arity of $f$}) for each $f\in \cal F$ (function
+  symbols of arity 0 are called \emph{constants}),
+\item a set $\cal P$ of \emph{predicate symbols} and a natural number
+  (called \emph{the arity of $p$}) for each $p\in \cal P$,
+\item a set $\mathit{Var}$ of variables.
+\end{enumerate}
+
+\noindent
+A \emph{term} is either a variable or of the form $f(t_1,\ldots,t_n)$
+where $f$ is a function symbol of arity $n$ and the $t_i$ are terms.
+An \emph{atom}, or \emph{atomic formula}, is of the form
+$p(t_1,\ldots,t_n)$ where $p$ is a predicate symbol of arity $n$ and
+the $t_i$ are terms or it is of the form $t_1=t_2$. \emph{Formulae}
+are now described by
+%
+$$\phi ::= p \mid  \neg\phi \mid \phi\et\phi \mid
+\forall x.\phi\mid\exists x.\phi$$
+where $p$ ranges over atoms and $x$
+over variables.
+
+\bigskip\noindent A \emph{model} $M$ (for first-order predicate logic
+(FOL)) consists of a non-empty set $A$ and
+\begin{enumerate}
+\item a function $f^M:A^n\to A$ for each
+$n$-ary function symbol\footnote{An `$n$-ary function symbol' is a
+  `function symbol of arity $n$'.}  $f$, 
+\item a predicate (or relation) $p^M: A^n\to\bbtwo$ for each $n$-ary
+  predicate symbol $p$.\footnote{Note that functions $A^n\to\bbtwo$ are in
+    one-to-one correspondence to subsets of $A^n$.}
+\end{enumerate}
+
+\medskip\noindent
+An \emph{environment} (or memory or look-up table or valuation or
+interpretation) is
+\begin{enumerate}\setcounter{enumi}{2}
+\item a function $l:\mathit{Var}\to A$ from variables to
+$A$.
+\end{enumerate}
+The environment $l$ where $x$ has been updated to $a$ is denoted by
+$l[x\mapsto a]$. 
+
+\bigskip\noindent
+The semantics $\sem{\phi}_{M,l}$ of $\phi$ in a model $M$ under
+environment $l$ is now defined as follows ($\sem{\phi}$ plays now the
+role of $v(\phi)$ in PL.
+%
+\begin{itemize}
+\item $\sem{x}_{M,l}=l(x)$,
+\item $\sem{f(t_1,\ldots t_n)}_{M,l}=f^M(\sem{t_1}_{M,l},\ldots
+  \sem{t_n}_{M,l})$,
+\item $\sem{p(t_1,\ldots t_n)}_{M,l}=p^M(\sem{t_1}_{M,l},\ldots
+  \sem{t_n}_{M,l})$,
+\item $\sem{\neg\phi}_{M,l}=\neg\sem{\phi}_{M,l}$,
+\item $\sem{\phi\et\psi}_{M,l}=\sem{\phi}_{M,l}\et\sem{\phi}_{M,l}$,
+\item $\sem{\forall x.\phi}_{M,l}=1$ if $\sem{\phi}_{M,l[x\mapsto
+    a]}=1$ for all $a\in A$,
+\item $\sem{\exists x. \phi}_{M,l}=1$ if $\sem{\phi}_{M,l[x\mapsto
+    a]}=1$ for some $a\in A$.
+\end{itemize}
+
+\medskip\noindent
+$\sem{\phi}_{M}=1$ if $\sem{\phi}_{M,l}=1$ for all $l$.
+$\sem{\phi}=1$ if for $\sem{\phi}_{M}=1$ for all $M$.
+
+\medskip\noindent
+We also write 
+%
+\begin{itemize}
+\item $M,l\models\phi$ for $\sem{\phi}_{M,l}=1$,
+\item $M\models\phi$ for $\sem{\phi}_{M}=1$,
+\item $M\models\Phi$ if $M\models\phi$ for all $\phi\in\Phi$,
+\end{itemize}
+
+Validity and consequence are defined as follows.
+\begin{itemize}
+\item $\models\phi$ (`$\phi$ is valid') if $M\models\phi$ for all $M$,
+\item $\Phi\models\phi$ (`$\phi$ is a consequence of the set of
+  formulae $\Phi$') if for all $M$ it holds that $M\models\Phi$
+  implies $M\models\phi$.
+\end{itemize}
+
+
+
+%\input{sr-logic-transitionsystems}
+\section{Logic for Transition Systems (Modal Logic)}\label{sec:ml}
+
+This section contains additional material. It would fit after the
+definition of a transition system. This section shows that temporal
+logic is part of a wider field of logic called modal logic. Modal
+logics come indifferent shapes and sizes and are used all over
+computer science to model very different phenomena such as knowledge,
+belief, obligations, etc. 
+
+\medskip\noindent \textbf{Syntax of ML.} $\phi::=p \mid \neg\phi \mid
+\phi\et\phi \mid \Box_i\phi \mid \Diamond_i\phi$
+
+\bigskip\noindent\textbf{Semantics of ML. } Let $M=(X,(R_i)_{i\in
+  I},v)$ be a Kripke model and $x\in X$.
+\begin{itemize}
+\item $M,x\models p$ \ if $v(x,p)=1$,
+\item $M,x\models \neg\phi$ \ if not $M,x\models \phi$ (notation:
+  $M,x\notmodels \phi$),
+\item $M,x\models \phi\et\psi$ \ if $M,x\models \phi$ and $M,x\models \phi$,
+\item $M,x\models \Box_i\phi$ \ if $M,y\models\phi$ for all $y$ such
+  that $x R_i y$,\footnote{Other notations for $x R_i y$ are:
+    $(x,y)\in R_i$, $R_i(x,y)$ $R_i(x,y)=1$,
+    $x\stackrel{i}{\longrightarrow}y$, $x\longrightarrow_i y$.}
+\item $M,x\models \Diamond_i\phi$ \ if $M,y\models\phi$ for some $y$ such
+  that $x R_i y$.
+\end{itemize}
+
+\noindent $M\models\phi$ \ if $M,x\models\phi$ for all $x$.\\
+$M\models\Phi$ \ if $M\models\phi$ for all $\phi\in\Phi$.\\
+$\Phi\models\phi$ \  if $M\models\Phi$ implies $M\models\phi$ for all $M$. \footnote{Notation: $\psi\models\phi$ for $\{\psi\}\models\phi$; $\models\phi$ for $\emptyset\models\phi$.} \\
+$(X,(R_i)_{i\in I})\models\phi$ \ if $(X,(R_i)_{i\in I},v)\models\phi$
+for all $v$ \footnote{Terminology: $(X,(R_i)_{i\in I})$ is called a
+  \emph{Kripke frame} in this context.}
+
+\bigskip\noindent\textbf{Notation. } One often writes $[i]$ for
+$\Box_i$ and $\langle i\rangle$ for $\Diamond_i$. In many cases, there
+will be just one transition relation $R$. We then write $(X,R,v)$ and
+the operators as $\Box$, $\Diamond$.
+
+\bigskip\noindent\textbf{Example 1. } Consider a model $(\bbN,\le,v)$,
+which has as a carrier the natural numbers (= non-negative integers).
+Thinking of $x\le y$ as $y$ is in the future of $x$, we have that
+$\Box$ means `always' and $\Diamond$ means `sometimes'.
+
+\bigskip\noindent\textbf{Example 2. } Consider a model $(\bbN,S,v)$,
+where $\bbN$ is as before, but $S$ is the relation $\{(x,x+1) \mid
+x\in \bbN\}$. Thinking of $\bbN$ again as the flow of time, we have
+that $\Box$ means `at the next point in time'. Note that
+$\Box\phi\biimp \Diamond\phi$.
+
+\bigskip\noindent\textbf{Example 3. } Consider an arbitrary model
+$(X,R,v)$, where we think of $X$ as a set of worlds (or possible
+scenarios) and of $xRy$ as $y$ being an alternative to $x$. Then we
+can read $\Box$ as `necessarily' and $\Diamond$ as `possibly'. [This
+example is the one with which the area of modal logic originated ca
+hundred years ago.]
+
+\bigskip\noindent\textbf{Example 4. } Consider a model $(X,R_i,v)$,
+where we think of $X$ as a set of worlds and of $xR_iy$ as: The world
+$y$ looks the same as $x$ according to the facts known to agent $i$.
+Then we can read $\Box_i$ as `agent $i$ knows'. [This example is
+important in the specification of multi-agent systems.]
+
+
+
+
+\bigskip\noindent\textbf{Remark. } A Kripke model can be seen as a
+model for FOL where the language consists of one binary predicate
+symbol for each $i\in I$ and one unary predicate symbol for each
+$p\in\bbP$. We then see that the modal language is a restriction of
+FOL. For example, formulae have at most one `free' variable (the $x$
+in the semantics definition). Moreover, $\Box$ and $\Diamond$ are
+restricted quantifiers in that they do not quantify over all elements
+of the model but only over the successors of a particular element. One
+of the benefits from this restriction is that the logic becomes
+decidable (Proof: Adapt the semantic tableau method from propositional
+logic (we won't do this in the course, but it is not very difficult)).
+There is even a stronger property: Each satisfiable formula is
+satisfiable in a finite model (and we have seen in the lectures that
+this is not true for FOL).

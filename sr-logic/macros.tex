@@ -1,0 +1,23 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     Module: MC214 Logic Programming
+%       File: worksheets/99-00/macros.tex
+%   Contents: Macros for MC214 worksheets
+%     Author: Simon Ambler
+%  Copyright: Leicester University, 2000.
+% Time-stamp: <00/02/06 16:04:54 simon>
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcounter{quest}
+\newenvironment{question}{\refstepcounter{quest}\begin{trivlist}
+\item[\hspace{\labelsep}\bf Question \thequest.]}{\end{trivlist}}
+
+\newcounter{answ}
+\newenvironment{answer}{\refstepcounter{answ}\begin{trivlist}
+\item[\hspace{\labelsep}\bf Answer \theansw.]}{\end{trivlist}}
+
+\include{mc214mac}
+
+
+%%%%%%%%%%%
+%%% End %%%
+%%%%%%%%%%%

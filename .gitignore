@@ -1,0 +1,50 @@
+# Spin/Promela generated files
+pan
+pan.*
+*.trail
+check.prp
+_spin_nvr.tmp
+*.nvr
+
+# LaTeX auxiliary files
+*.aux
+*.log
+*.fdb_latexmk
+*.fls
+*.synctex.gz
+*.out
+*.toc
+*.bbl
+*.blg
+*.idx
+*.ilg
+*.ind
+*.lof
+*.lot
+*.nav
+*.snm
+*.vrb
+*.dvi
+*.ps
+*.pdf
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# VS Code
+.vscode/
+
+# Backup files
+*~
+*.bu
+*.bak
+*.swp
+*.swo
+
+# Compiled C files (from Spin)
+*.o
+*.so
+*.a
+

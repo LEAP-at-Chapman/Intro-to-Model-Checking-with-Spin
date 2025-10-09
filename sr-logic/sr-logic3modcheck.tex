@@ -1,0 +1,58 @@
+\section{LTL Model Checking with Semantic Tableaux}
+
+To check whether a property $\phi$ holds in a Kripke model $M$, we
+`synchronise' the semantic tableaux method for the validity of $\phi$
+with the transition system $M$.
+
+\medskip\noindent
+Let $M=(X,R,v)$ where $v:X\times\bbP\to\bbtwo$ for a fixed set $\bbP$ of
+atomic propositions. Also fix an initial state $x_0\in X$. 
+%
+We want to build a tableau for $\phi$ and $M$. The nodes $(x,\Phi)$ of
+the tableau consist of states $x\in X$ and sets of LTL-formulae
+$\Phi$. 
+
+% A node $(x,\Phi)$ is called propositional or transitional if
+% $\Phi$ is so called. 
+
+\medskip\noindent The root is $(x_0,\{\neg\phi\}\cup \{p\mid
+v(x_0)(p)=1\}\cup\{\neg p \mid v(x_0)(p)=0\} )$.
+
+\medskip\noindent For a non-state node $\Phi$, the children of
+$(x,\Phi)$ are $(x,\Psi)$ where $\Psi$ is a child of $\Phi$ according
+to the three rules for propositional nodes from above.
+
+\medskip\noindent For state nodes $\Phi$, $(x,\Phi)$ is a leaf (ie, it
+has no child) if $\Phi$ contains a contradiction or if $\Phi'$ is
+empty or if the successors $(x',\Phi')$ of $(x,\Phi)$ appear on a path
+from the root to $(x,\Phi)$. 
+%
+Otherwise the children of $(x,\Phi)$ are
+%
+$$(y,\Phi'\cup\{p\in\bbP \mid
+v(y,p)=1\}\cup \{\neg p\in\bbP \mid v(y,p)=0\})$$ 
+%
+for all successors $y$ of $x$, that is, for all $y$ such that $xRy$.
+
+
+% \medskip\noindent In analogy to the previous section, we say that if
+% $\Phi$ has a subsuming ancestor $\Gamma$, then the path from
+% $(x,\Gamma)$ to $(x,\Phi)$ is the loop associated with
+% $(x,\Phi)$.
+
+% \medskip As before, a leaf $(x,\Phi)$ is called \emph{open} (a) if
+% $\Phi$ does not contain a contraction or (b) if there is a loop
+% associated with $(x,\Phi)$ that is self-fulfilling. A leaf is called
+% \emph{closed} if it is not open.
+
+% \medskip\noindent $M,x_0\models\phi$ if there is a complete tableau
+% with root $(x_0,\{\neg\phi\})$ that has no open leaf.  Conversely, if
+% there is a complete tableau with root $(x_0,\{\neg\phi\})$ that has an
+% open leaf, then the path from the root to that leaf (possibly extended
+% by the associated loop) is a counter-example to $\phi$. In Spin, the
+% associated loop is called \emph{acceptance cycle}.
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "sr-logic"
+%%% End: 

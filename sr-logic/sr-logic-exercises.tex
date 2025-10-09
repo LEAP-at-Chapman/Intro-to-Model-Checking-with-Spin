@@ -1,0 +1,184 @@
+\section{Questions and Exercises}
+Questions marked with * relate to material relevant for the
+exam. Questions of particular importance for the exam are marked with
+**.
+\begin{question}* \ 
+  A traffic light can be modelled in propositional logic by three
+  atomic propositions red, yellow, green. Without further
+  specification, this means that a traffic light can be in $2^3=8$
+  different states. Now suppose you want to model a crossing with 4
+  traffic lights (for cars) and 4 traffic lights for cyclists (the
+  latter have only red and green). How many possible states are there
+  for the crossing now? What if you add 8 more traffic lights (two
+  colours each) for pedestrians? Explain the notion of `state
+  explosion'.
+\end{question}
+
+\begin{question}* \
+For each of the following formulae determine whether they are valid
+and whether they are satisfiable. 
+\begin{center}
+\begin{tabular}{c}
+$p\imp p$\\
+$p\et\neg p$\\
+$p\et\neg q$\\
+$p\ou\neg p$\\
+$p$\\
+$\neg p$
+\end{tabular}
+\end{center}
+
+\end{question}
+
+\begin{question}* \
+  List all models of the following traffic light specification
+  ($r,y,g$ for red, yellow, green).
+\[
+(r\ou y)\imp \neg g
+\]
+Do this using a truth table and do this again using a semantic
+tableau. Compare the two procedures.  Add a formula that makes sure
+that not all colours can be dark simultaneously.
+\end{question}
+ 
+\begin{question}
+\begin{enumerate}
+\item
+  Explain in what sense propositional logic can also be defined by the
+  smaller grammar
+%
+$$\phi ::= p \mid  \neg\phi \mid \phi\et\phi$$
+%
+ [Hint: Use the equivalences of Example~\ref{exle:prop:valid}.]
+\item Similarly, show that from each of the following sets of
+  connectives $\{\bot,\imp\}$, $\{\neg,\ou\}$ all other connectives
+  can be defined. 
+\end{enumerate}
+\end{question}
+
+\begin{question}** \
+Use semantic tableaux to check whether the following formulae are valid
+and, in case they are not, give a counterexample.
+\begin{center}
+\begin{tabular}{c}
+$((p\et q)\imp r) \imp (p\imp (q\imp r))$\\ %v
+$(p\imp (q\imp r))\imp ((p\et q)\imp r)$\\  %v
+$((p\et q)\imp r) \imp ((p\imp q)\imp r)$\\ %nv
+$((p\imp q)\imp r)\imp ((p\et q)\imp r)$\\  %v
+%$(p\imp (q\ou\neg r))\et p\et r \imp q$\\
+$(p\et q \et (q\imp( r\imp p)))\imp r$\\ %nv
+%$(p \et \neg(p\et q) \et (\neg r\imp q) \et (r\imp q)) \imp s$\\
+$(r\et q) \imp (((r\imp s)\et q) \ou \neg(q\imp s))$ \\ %(0607)
+$(p\imp (q\imp r))\imp((p\imp q)\imp (p\imp r))$ \\%(0708)
+%some new ones:
+% $(p\imp(p\et r))\ou(r\imp(p\et\neg p))$\\%valid
+% $(p\ou q \imp r )\ou((r\imp p)\et(r\imp q))$\\%valid
+% $(p\imp(q\ou r))\ou\neg(\neg q\imp r)$\\%valid
+% $(p\et q)\ou(r\et q)\ou\neg q\ou (\neg p \et q \et r)$\\%valid
+% $\neg q\imp(\neg(p\et q)\imp(r\et q))$\\%not valid  
+\end{tabular}
+\end{center}
+\end{question}
+
+
+\begin{question} \ \label{qn:traffic-light-tableau} 
+\begin{enumerate}
+\item
+Show that the following FOL-formulae are valid.
+\begin{center}
+\begin{tabular}{c}
+$\forall x.\phi \imp \exists x.\phi$\\
+$\exists y.\forall x.\phi\imp \forall x.\exists y. \phi$\\
+$\forall x.(\phi\imp \psi) \imp(\forall x. \phi \imp \forall x. \psi)$\\
+\end{tabular}
+\end{center}
+\item
+Give counter-examples for 
+\begin{center}
+\begin{tabular}{c}
+$\forall x.\exists y. \phi \imp \exists y.\forall x.\phi$\\
+$(\forall x. \phi \imp \forall x. \psi) \imp \forall x. (\phi\imp \psi) $\\
+\end{tabular}
+\end{center}
+\end{enumerate}
+\end{question}
+
+\begin{question}
+  Why is PL decidable. Why does this argument not apply to FOL
+  (First-order predicate logic)? Is FOL decidable?
+\end{question}
+
+
+\begin{question}* \
+Define 
+\begin{itemize}
+\item $M,n\models \phi\atnext\psi$ \ if \ \
+  \parbox{20em}{$M,m\notmodels\psi$ for all $m> n$ or \\
+    $M,k\models\phi$ for the smallest $k> n$ with $M,k\models\psi$.}
+\item $M,n\models \phi\while\psi$ \ if \ \
+  \parbox{20em}{$M,m\notmodels\psi$ for some $m > n$ and\\
+    $M,k\models\phi\et\psi$ for all $k$ with $n< k< m$.}
+\item $M,n\models \phi\before\psi$ \ if \ \
+  \parbox{20em}{for all $m> n$ with $M,m\models\psi$\\
+                there is  $k$ with $n< k< m$ such that $M,k\models\phi$.}
+\end{itemize}
+Express these operators using LTL.
+\end{question}
+
+\begin{question}** \
+  For each of the following LTL-formulae, either show that the formula
+  is valid or give a counterexample.
+\begin{enumerate}
+\item $\next\Box p \imp \Box\next p$,
+\item $\Box(p\ou q) \imp \Box p \ou \Box q$,
+\item $\Box p \ou \Box q \imp \Box(p\ou q)$,
+\item $\Box\Diamond\phi\imp\Diamond\Box\phi$,
+\item $\Box(\phi\imp\next\Diamond\psi) \et \Diamond \phi
+  \imp\Diamond\psi$.
+\item $\Box q \et (p\until q) \imp \Box p$,
+\item $\next\phi \biimp \bot\until\phi$.
+\item
+\item $\Box(p\imp\Diamond\neg p)\biimp \Box\Diamond\neg p$.
+\end{enumerate}
+\end{question}
+
+\begin{question}* \
+  Further temporal laws: Show that the following are valid.
+\begin{enumerate}
+\item $\Box(p\imp \next q) \wedge p \imp \Box q$. \ [This law is a
+  powerful induction principle if you want to prove that a formula of
+  the kind $\Box\phi$ is true.]
+\item $(\Box\Diamond p \imp \Box\Diamond q) \ \imp \ \Box(\Box\Diamond
+  p \imp \Box\Diamond q)$. \ [This is related to fairness.]
+\end{enumerate}
+\end{question}
+
+\begin{question} * \
+\begin{enumerate}
+\item Give a counterexample to $p\until q \ \rightarrow p\before q$.
+\item Change the definition of the semantics of $\until$ and $\before$
+  in such a way that the formula above becomes valid.
+\end{enumerate}
+\end{question}
+
+\end{document}
+
+
+%further questions
+\begin{question} 
+\begin{enumerate}
+\item Give the semantics of the $\until$-operator of LTL as in the
+  lecture.
+\item Give the semantics of the $U$ operator of SPIN.
+\item Comparing $\until$ and $U$, what are the respective advantages
+  of the two. 
+\end{enumerate}
+
+Define $p\before q$ as $\neg(\neg p \until q)$ and $pBq$ as $\neg(\neg
+p U q)$.
+\begin{enumerate}
+\item Give a counterexample to $p\until q \ \rightarrow
+  p\before q$.
+\item Argue that $p U q \ \rightarrow \ pBq$ is valid.
+\end{enumerate}
+\end{question}

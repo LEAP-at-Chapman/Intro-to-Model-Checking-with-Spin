@@ -1,0 +1,535 @@
+\documentclass[11pt]{article} 
+\usepackage{fullpage}
+\usepackage{verbatim}
+%\usepackage{html}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{bbm}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{txfonts}
+\usepackage{amsfonts}
+\usepackage[all]{xy}
+
+%\input{logic}
+\newcommand{\sth}{\ensuremath{{\;|\;}}} 
+\renewcommand{\phi}{\varphi} 
+%%% first order shorthands
+\newcommand{\imp}{\ensuremath{\rightarrow}}
+\newcommand{\biimp}{\ensuremath{\leftrightarrow}}
+\newcommand{\et}{\ensuremath{\wedge}} %\and is already a latex command
+\newcommand{\Et}{\ensuremath{\bigwedge}} %\and is already a latex command
+\newcommand{\ou}{\ensuremath{\vee}} %\or is already a tex command
+\newcommand{\Ou}{\ensuremath{\bigvee}} %\or is already a tex command
+\newcommand{\fa}{\ensuremath{\forall}}
+\newcommand{\ex}{\ensuremath{\exists}}
+\newcommand{\eq}{\ensuremath{\leftrightarrow}}
+\newcommand{\equ}{\ensuremath{\eq}}
+%%%***%%% metalogical shorthands
+\newcommand{\deriv}{\ensuremath{\mathrel{\vdash}}}
+%\newcommand{\notderiv}{\ensuremath{\mathrel{\mathpalette\notthrmm\thrm}}}
+  %cf. the def. of \notthrm
+\newcommand{\notmodels}{\ensuremath{\mathrel{\mathpalette\notmodelss\models}}}
+  \newcommand{\notmodelss}[2]{\ooalign{$\hfil#1\mkern1mu/\hfil$\crcr$#1#2$}}
+  %cf. the def. of \notin in plain.tex
+\newcommand{\modelsb}{\ensuremath{\mathrel{\mathpalette\modelsbb\models}}}
+\newcommand{\modelsbb}[2]{\ooalign{$\hfil#1\mkern3mu\models\hfil$\crcr$#1#2$}}
+\newcommand{\modelsbp}{\modelsb}
+%%% small connectives
+\newcommand{\oif}{\ensuremath{\;\Rightarrow\;}} % only if
+\newcommand{\si}{\ensuremath{\;\Leftarrow\;}} % if
+\newcommand{\ssi}{\ensuremath{\;\Leftrightarrow\;}} % iff (si et seulement si)
+\newcommand{\y}{\ensuremath{\;\&\;}} % and
+%%% large connectives
+\newcommand{\Oif}{\ensuremath{\:\;\Longrightarrow\;\:}} % big only if
+%\newcommand{\Si}{\ensuremath{\:\;\Longleftarrow\;\:}} % big if
+\newcommand{\Ssi}{\ensuremath{\;\;\Longleftrightarrow\;\;}} % big iff (si et seulement si)
+%end logic.tex
+
+
+% \setlength{\parindent}{0pt} 
+% \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex} 
+
+\newcommand{\sem}[1]{[\![#1]\!]} 
+\newcommand{\bbtwo}{\mathbbm{2}}
+\newcommand{\bbP}{\mathbbm{P}}
+\newcommand{\until}{\mathrel{\mathsf{until}}}
+\newcommand{\atnext}{\mathrel{\mathsf{atnext}}}
+\newcommand{\while}{\mathrel{\mathsf{while}}}
+\newcommand{\before}{\mathrel{\mathsf{before}}}
+\newcommand{\next}{\medcirc}
+\newcommand{\bbN}{\mathbbm{N}}
+
+%\newcommand{\comment}[1]{}
+
+\newcommand{\rules}[2]{\mbox{$\frac% 
+                      {\mbox{\normalsize \rule[-5pt]{0pt}{14pt} $#1$}} 
+                      {\mbox{\normalsize \rule[0pt]{0pt}{10pt}$#2$}}$}} 
+
+\newcounter{quest}
+\newenvironment{question}{\refstepcounter{quest}\begin{trivlist}
+\item[\hspace{\labelsep}\bf Question \thequest.]}{\end{trivlist}}
+
+\newcounter{answ}
+\newenvironment{answer}{\refstepcounter{answ}\begin{trivlist}
+\item[\hspace{\labelsep}\bf Answer \theansw.]}{\end{trivlist}}
+
+\newcounter{prop}
+\newcommand{\newprop}[2]{\newenvironment{#1}{\refstepcounter{prop}
+\begin{trivlist}\item[\hspace{\labelsep}\bf #2 \theprop .]}{\end{trivlist}}}
+\newprop{definition}{Definition}
+\newprop{defn}{Definition}
+\newprop{prop}{Proposition}
+\newprop{thm}{Theorem}
+\newprop{lemma}{Lemma}
+\newprop{example}{Example}
+\newprop{exercise}{Exercise}
+\newprop{remark}{Remark}
+\newprop{notn}{Notation}
+\newenvironment{pf}{\begin{trivlist}\item[\hspace{\labelsep}\bf Proof.]}
+{\hfill$\square$\end{trivlist}}
+
+
+\begin{document}
+% \begin{center}
+% \large\textbf{CO2014 Worksheet 1}
+% \end{center}
+
+\title{Linear Temporal Logic with Spin}
+\author{Alexander Kurz}
+\date{\today}
+\maketitle
+\tableofcontents
+%\newpage
+
+\newcommand{\Fma}{\mathsf{Fma}}
+
+%\input{sr-logic1}%Propositional logic
+\section{Propositional Logic}
+
+\subsection{Truth Tables}
+
+Notation: We write $\bbtwo$ for the two-element set $\{0,1\}$.  We
+call the elements of $\bbtwo$ truth values and refer to 0 as `false'
+and to 1 as `true'.
+
+\bigskip\noindent The formulas of propositional logic (PL) are given
+wrt\footnote{with respect to} a set $\bbP$ of \emph{atomic
+  propositions}, sometimes also called \emph{propositional variables},
+according to the context-free
+grammar\footnote{\url{http://en.wikipedia.org/wiki/Context-free_grammar}, 
+  \url{http://en.wikipedia.org/wiki/Backus-Naur_Form}}
+%
+  \[\Fma ::= p \mid \bot \mid \top \mid \neg\Fma \mid \Fma\ou\Fma \mid
+  \Fma\et\Fma \mid \Fma\imp\Fma \mid \Fma\biimp\Fma \ \ \footnote{The
+    connectives should be pronounced as false, true, not, or, and, implies,
+    if and only if. The connectives are named: falsum/bottom,
+    verum/top, negation, disjunction, conjunction, implication,
+    biimplication (or logical equivalence).}\]
+%
+  where $p$ takes values in $\bbP$. We also say that this grammar
+  discribes the \emph{syntax} of propositional logic. To save brackets
+  we use the convention that $\neg$ binds stronger than $\et$, $\ou$
+  which bind stronger than $\imp$ which binds stronger than
+  $\biimp$.\footnote{For example, $\neg(\phi\ou\psi) \biimp
+    \neg\phi\et\neg\psi$ abbreviates $(\neg(\phi\ou\psi)) \biimp
+    ((\neg\phi)\et(\neg\psi))$.}
+
+\bigskip\noindent\emph{Remark on Notation: } $\Fma$ is a so-called
+non-terminal symbol of the context-free grammar describing all
+propositional formulas. We use $\phi$ to denote a propositional
+formula. We use $p,q,r$ to denote atomic propositions.
+
+\newcommand{\red}{\mathsf{red}}
+\newcommand{\yellow}{\mathsf{yellow}}
+\newcommand{\green}{\mathsf{green}}
+
+\begin{example}
+  Intuitively, propositional logic is the logic of finite states, or,
+  in other words, the
+  logic to describe static properties of a system with finite memory. Consider,
+  eg \[\bbP=\{\red,\yellow,\green\}.\] Then we may use propositional
+  formulas to specify static properties of traffic lights such as
+\begin{itemize}
+\item $\red\imp\neg\green$
+\item $\green\imp\neg\red$
+\item $\neg\red\ou\neg\green$
+\end{itemize}
+(One thing propositional logic cannot do, is to specify dynamic, or
+\emph{temporal}, properties, such as: whenenver the traffic light is
+red then \emph{eventually} it will become green. We will come back to
+this when we discuss temporal logic.) 
+\end{example}
+
+\medskip\noindent A good exercise at
+this point is too write out a full specification of the allowed
+states of a traffic light. And then to ask: How we can
+validate this specification?
+
+\medskip\noindent This exercise will lead to some interesting
+questions about specifications. For example, when are two different
+specifications equivalent?
+
+\bigskip These questions lead us to the notion of model of a
+specification.\footnote{Here we use the word model as a technical term
+  in the sense of logic as made precise below. It is important to
+  understand this technical meaning and not to confuse it with the
+  meaning this word has in physics and engineering, or also in some
+  areas of software engineering (model driven architectures,
+  metamodels, \ldots)} Intuitively, a model of a specification
+describes a situation in which the specification is true. For
+example, the models of  $\red\imp\neg\green$ are all combinations a
+traffic light could show as long as red and green are not both on. For
+example 
+\begin{gather*}
+(\red\mapsto 1, \yellow\mapsto 1, \green\mapsto 0) \\
+(\red\mapsto 0, \yellow\mapsto 1, \green\mapsto 1) \\
+(\red\mapsto 0, \yellow\mapsto 0, \green\mapsto 0)
+\end{gather*}
+are all models of $\red\imp\neg\green$, but
+\begin{gather*}
+(\red\mapsto 1, \yellow\mapsto 1, \green\mapsto 1) \\
+(\red\mapsto 0, \yellow\mapsto 0, \green\mapsto 1) 
+\end{gather*}
+are not. After this informal explanation, let us give a formal
+definition. We first define the notion of model in general and come
+back to the notion of a model of a specification later.
+
+\begin{definition}
+Given the set of atomic propositions  $\bbP$, a \emph{model} is map,
+  sometimes called a valuation, $v:\bbP\to\mathbbm{2}$.
+\end{definition}
+
+The reason, the notion of a model is defined as it is above, is that a
+model is exactly what is needed in order to assign a truth value to a
+formula. For example, to say that
+\[p\imp q\]
+is true we need to know what $p$ and $q$ is \ldots actually, it is enough
+to know what the truth values of $p$ and $q$ are \ldots and that is
+exactly what a model tells us. I assume everybody knows how to evaluate
+propositional formulas, so let us go directly to a formal description
+of the algorithm for evaluating propositional formulas given truth
+values of the atomic propositions.
+
+\medskip\noindent $v$ is extended from atomic propositions to formulas
+using the \emph{truth tables} corresponding to the connectives $\bot,
+\top, \neg, \ou, \et, \imp, \biimp$. If we write 0, 1,
+\boldmath$\neg$\unboldmath, \boldmath \et\unboldmath, \boldmath
+\ou\unboldmath, \boldmath \imp\unboldmath,\boldmath \biimp\unboldmath,
+for the respective truth tables\footnote{Eg the truth tables for `and'
+  \quad
+\begin{tabular}{|l|l|c|} % chktex 44
+\hline
+$p$ & $q$ & $p$\boldmath\et\unboldmath$q$\\
+\hline
+\hline
+0&0&0\\
+\hline
+0&1&0\\
+\hline
+1&0&0\\
+\hline
+1&1&1\\
+\hline
+\end{tabular}
+\quad and implication \quad
+\begin{tabular}{|l|l|c|}
+\hline
+$p$ & $q$ & $p$\boldmath\imp\unboldmath$q$\\
+\hline
+\hline
+0&0&1\\
+\hline
+0&1&1\\
+\hline
+1&0&0\\
+\hline
+1&1&1\\
+\hline
+\end{tabular}. 
+If you have doubts about the first two lines of the truth-table for the
+implication consider ($x$ is even and $y$ is odd)$\imp$($x$ is even)
+and evaluate it for $(x,y)$ taking the values $(3,2)$ and $(2,2)$.
+}\label{fn:truth-tables} then
+\begin{align*}
+\sem{p}_v & = v(p)\\
+\sem{\bot}_v & = 0\\
+\sem{\top}_v & = 1\\
+\sem{\phi\et\psi}_v & = \sem{\phi}_v\mbox{\boldmath
+\et\unboldmath}\sem{\psi}_v\\
+\sem{\phi\ou\psi}_v & = \sem{\phi}_v\mbox{\boldmath
+\ou\unboldmath}\sem{\psi}_v\\
+\sem{\phi\imp\psi}_v & = \sem{\phi}_v\mbox{\boldmath
+\imp\unboldmath}\sem{\psi}_v\\
+\sem{\phi\biimp\psi}_v & = \sem{\phi}_v\mbox{\boldmath
+\biimp\unboldmath}\sem{\psi}_v\\
+\end{align*}
+
+\medskip\noindent Instead of formalising ``meaning'' as a function $\sem{-}_-$
+from formulas and models to truth values, we can also formalise the
+relation between models and formulas saying when a formula holds (is
+true) in a model. This relation is usually denoted by $\models$ or
+$\Vdash$ and can be seen as a useful alternative, but equivalent,
+notation. The two notations are related via  \[\sem{\phi}_v=1 \quad \textrm{if and only if} \quad
+v\models\phi.\] A direct definition of $\models$:
+\begin{align*}
+  v\models p & \quad\textrm{ if }  v(p)\\
+  v\models\top \\
+  v\models{\neg\phi} & \quad\textrm{ if it is not the case that } v\models\phi \\
+  v\models{\phi\et\psi} & \quad\textrm{ if } v\models\phi \textrm{ and } v\models\psi
+\end{align*}
+(the other logical connectives can be defined similarly.)
+
+\begin{definition}
+\begin{itemize}
+\item Each of the following are equivalent ways of saying $\sem{\phi}_v=1$
+\begin{itemize}
+\item $v\models\phi$
+\item $\phi$ \emph{holds} in $v$
+\item $v$ satisfies $\phi$
+\item $\phi$ is satisfied in $v$
+\item $v$ is a model of $\phi$
+\end{itemize}
+
+\item $\phi$ is \emph{satisfiable} iff there is $v:\bbP\to \bbtwo$ such that
+  $v\models\phi$.
+\item $\phi$ is \emph{valid} iff for all $v:\bbP\to \bbtwo$ we have
+  $v\models\phi$.
+\item $\phi$ and $\psi$ are equivalent, written $\phi\equiv\psi$, iff
+  for all $v:\bbP\to \bbtwo$ we have $\sem{\phi}_v=\sem{\psi}_v$.
+\end{itemize}
+\end{definition}
+
+\begin{example}\label{exle:prop:valid} 
+\begin{itemize}
+\item The following formulas are
+  valid \footnote{Valid formulas are also called tautologies. Formulas
+  that are not satisfiable are also called contradictions.}
+\begin{align*}
+p\imp p\\
+p\ou\neg p\\
+p\imp(q\imp p)
+\end{align*}
+\item The following formulas are not satisfiable
+\begin{align*}
+p\et\neg p\\
+(p\imp q)\et(p\imp\neg q)
+\end{align*}
+The following formulas satisfiable
+\begin{align*}
+p\\
+\neg p
+\end{align*}
+
+\item The following are equivalences
+\begin{align*}
+(\phi\biimp\psi) & \equiv  (\phi\imp \psi)\et(\psi\imp \phi)\\
+\neg(\phi\ou\psi)& \equiv \neg\phi\et\neg\psi\\
+\neg(\phi\et\psi)& \equiv \neg\phi\ou\neg\psi\\
+\phi\imp\psi &\equiv \neg\phi\ou\psi\\
+\neg(\phi\imp\psi)&\equiv \phi\et\neg\psi
+\end{align*}
+This means that whatever formulas you plug in for $\phi$ and $\psi$,
+and however you evaluate the atomic propositions in these formulas,
+the left-hand side of ``$\equiv$'' will have the same truth value as
+the right-hand side. Therefore, whenever you encounter a left-hand
+side, you can replace it by the corresponding right-hand side (and
+vice versa). This will be important in the construction of semantic
+tableaux below. Also note that $\phi\equiv\psi$ iff 
+$\phi\biimp\psi$ is valid.
+\end{itemize}
+\end{example}
+
+
+
+\bigskip\noindent\emph{Remark on Notation: } One can think of formulas $\phi$
+as programs and the function $\sem{-}$ as a compiler.  Then
+$\sem{\phi}$ is the compiled program which computes on input $v$ the
+output $\sem{\phi}_v$. This notation is used quite widely in computer
+science and you may meet it in other places as well.
+
+\bigskip\noindent\emph{Remark on Semantics: } The notation $\sem{-}$
+is often called the semantic brackets, because $\sem{-}_v$ takes a
+piece of syntax, namely a formula $\phi$, and maps it to the meaning
+of the formula, which is the truth value $\sem{\phi}_v$ in a given
+model $v$. To summarize, the \emph{semantics} (= meaning) of a formula
+given a model $v$ is its truth value, and it is computed by
+$\sem{-}_v$ using the truth tables. The \emph{semantics} (= meaning)
+of a formula is the set of models satisfying the formula. Or, to say
+the same in software-engineering jargon, the semantics of a specification is
+the set of implementations satisfying the specification. This leads to:
+
+\bigskip\noindent\emph{Second Remark on Semantics: } The situation in
+logic is simpler, but completely analogous, to what we have for
+programming languages. Indeed a program, like a formula, is a piece of
+syntax, built according to the rules of a context free grammar. If the
+program is written in an imperative programming language such as C or
+Java, then we can take the semantics of the program to be given, for
+example, by the compiler which determines how the program actually
+modifies the memory.
+
+\medskip\noindent\textbf{Question: } What are the models for $p\imp
+q$? How can you find the models of a formula $\phi$ by looking at the
+truth table of $\phi$?
+
+
+
+
+\subsection{An algorithm for satisfiability: semantic tableaux}
+
+We know how to prove the validity of a formula using truth tables.
+But truth tables grow exponentially with the number of atomic
+propositions involved (if $n$ is the number of propositions then $2^n$
+is the number of rows of the truth table). In this section we learn
+another method which is often in practice (but not in the worst case)
+more efficient and is the basis of many model-checking algorithms:
+semantic tableaux. In fact, we can think of the semantic tableau for a
+formula as a systematic search for all models that satisfy the
+formula. The relationship between validity and satisfiability is as
+follows.
+
+\medskip\noindent{\Large \textbf{Important Fact. } 
+\quad $\phi$ is valid \ iff \footnote{if and only if} \  $\neg\phi$ is not satisfiable.}
+
+\medskip\noindent Equivalent is the following, also sometimes useful:
+\ $\neg\phi$ is valid iff $\phi$ is not satisfiable.
+
+\medskip A \emph{complete semantic tableau} (for propositional logic)
+is a tree \footnote{A typical tree looks like this
+\[
+\xymatrix{
+&a\ar[dl]\ar[d]\ar[dr]&\\
+b \ar[d] & c & d\ar[dl]\ar[d]\\
+e\ar[d] & f &g\\
+h
+}
+\] 
+where nodes are labelled here with letters $\{a,\ldots h\}$. We say
+that $a$ is the root; and $b,c,d$ are the children or successors of
+$a$; and $h,c,f,g$ are the leaves; and
+$(a,b,e,h),(a,c),(a,d,f),(a,d,g)$ are the branches. Examples of trees
+abound in computer science. For example, each formula of propositional
+logic is a tree, in which case the labels would be logical connectives
+$\{\neg,\et,\ou,\imp,\biimp\}$ for non-leaf nodes and
+$\bbP\cup\{\top,\bot\}$ for leaves. A semantic tableau will also be a
+tree, in which case each node is labelled with a set of formulas.}
+where a node is a set of formulas and the leaves only contain atomic
+propositions or negations of atomic propositions.  Moreover, after
+applying the equivalences of Example~\ref{exle:prop:valid} from left
+to right, each non-leaf node $\Phi$ has to satisfy one of the
+conditions of Table~\ref{table:tableau-rules}.
+
+\begin{table}
+\fbox{\parbox{\textwidth}{
+\begin{itemize}
+\item $\Phi$ contains a formula $\phi \ou\psi$ and has exactly
+  two children given by $(\Phi\cup\{\phi\})\setminus\{\phi \ou\psi\}$
+  and $(\Phi\cup\{\psi\})\setminus\{\phi \ou\psi\}$.
+    
+\item $\Phi$ contains a formula $\phi \et\psi$ and has exactly
+  one child given by $(\Phi\cup\{\phi,\psi\})\setminus\{\phi
+  \et\psi\}$.
+      
+\item $\Phi$ contains a formula $\neg\neg\phi$ and has exactly one
+  child given by $(\Phi\cup\{\phi\})\setminus\{\neg\neg\phi\}$.  
+\end{itemize}}}
+\caption{Tableau rules}\label{table:tableau-rules}
+\end{table}
+
+Before we explain how to conclude satisfiability and validity from a
+complete semantic tableau, let us first define some useful notions.
+
+\begin{definition}
+A node in a semantic tableau is closed if it contains a contradiction,
+that is, if it contains a formula $\phi$ and its negation
+$\neg\phi$. A leaf is called open if it is not closed. A branch in a
+semantic tableau is closed if it contains a closed node. A semantic
+tableau is closed if all branches are closed. Otherwise it is called open.
+\end{definition} 
+
+\medskip\noindent \textbf{A formula $\phi$ is valid if there is some closed semantic tableau
+which has a root labelled by $\{\neg\phi\}$.}
+(\textit{Remark: } If there is one closed semantic tableau for $\psi$
+then all complete semantic tableaux of $\psi$ are closed. This
+property is important: it shows that it doesn't matter which tableau
+you construct.\footnote{But some tableaux may be bigger than others.
+  For example, it makes sense, in case we have a choice of several
+  rules, to apply the non-branching rules first.}) 
+
+\medskip\noindent \textbf{A formula $\phi$ is satisfiable if there is some complete semantic tableau
+which has (at least) one open leaf and  a root labelled by
+$\{\phi\}$.}
+
+
+\medskip The three rules of Table~\ref{table:tableau-rules} can be written more suggestively as in
+Table~\ref{table:tableau-rules-short}.
+\begin{table}
+\fbox{\parbox{\textwidth}{
+\[
+\rules{\Gamma,\phi\ou\psi }{\Gamma,\phi \quad\quad \Gamma,\psi}
+\quad\quad\quad
+\rules{\Gamma,\phi\et\psi}{\Gamma,\phi,\psi}
+\quad\quad\quad
+\rules{\Gamma,\neg\neg\phi}{\Gamma,\phi}
+\]
+}}
+\caption{Tableau rules, short form}\label{table:tableau-rules-short}
+\end{table}
+For example, in the left-hand rule, one has a parent node consisting
+of a set $\Gamma$ of formulas and one additional formula
+$\phi\ou\psi$; this node then has two children, the left of which
+consists of $\Gamma$ and of $\phi$. Note that the formula
+$\phi\ou\psi$ does not appear in any of the children. Also note how
+each of the rules in Table~\ref{table:tableau-rules-short} corresponds
+to one of the bullet points of Table~\ref{table:tableau-rules}.
+
+
+
+\paragraph{Open leaves are counter-models } The method of semantic
+tableaux is a systematic search for \emph{models} (that is why it is
+called `semantic'). A closed leaf indicates that on this branch we
+cannot find a model (since a closed leaf contains a contradiction and
+no model can make a contradiction true). On the contrary, an open leaf
+represents a set of models for the formula at the root of the tableau.
+
+\medskip\noindent \emph{For example}, if we start a tableau with
+$\{p\imp q\}$, we obtain two leaves, namely $\{\neg p\}$ and $\{q\}$,
+which correspond to the three different models $v$ for which we have
+$v\models p\imp q$. Compare this with the truth table of
+Section~\ref{fn:truth-tables}.
+% See Question~\ref{qn:traffic-light-tableau} for an exercise on this
+% point of view.
+
+\medskip\noindent\emph{Checking of the Countermodel} is what is
+required in the typical exercises: If your tableau leads to an open
+leaf, then extract a model and evaluate the original formula. If the
+outcome is as expected, then you are done, otherwise there must be a
+mistake in the tableau that you then can correct.
+
+
+\paragraph{Summary } Question: Is $\phi$ valid? Start a tableau with
+root $\{\neg\phi\}$. If you find an open leaf, you can stop, check
+your counter-example and conclude that $\phi$ is not valid. If you
+find no open leaf, ie all leaves are closed, then the tableau is
+closed and $\phi$ is valid.
+
+%\newpage
+
+\input{sr-logic3}% Temporal logic
+\input{sr-logic3modcheck}% 
+
+\bibliography{sr-logic}
+\bibliographystyle{abbrv}
+
+
+
+
+
+\newpage
+\appendix
+\input{sr-logic4}
+\input{sr-logic-exercises}
+
+\end{document}
+
+
