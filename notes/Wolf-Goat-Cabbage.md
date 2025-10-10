@@ -2,13 +2,20 @@
 
 The [wolf, goat and cabbage problem](https://en.wikipedia.org/wiki/Wolf,_goat_and_cabbage_problem) is a classic problem with a long history. We use it here to learn the following.
 
-- How to use a Spin model to describe a set of possible execution sequences (runs).
-- How to use a formula of linear temporal logic (LTL) to specify runs with certain desirable properties.
-- How to use the Spin model checker to find a run that satisfies the LTL property.
+- How to use a Spin model to describe a set of possible execution sequences (runs). 
+- How to use a formula of linear temporal logic (LTL) to specify runs with certain desirable properties. 
+- How to use the Spin model checker to find a run that satisfies the LTL property. 
 
-In terms of the puzzle, the run satsifying the property will be the solution to the puzzle. 
+Both the model and the LTL property will together describe the puzzle. The run through the model satsifying the property will be the solution to the puzzle. 
 
 We end with a similar problem, bandits and pilgrims, which can be done as an exercise.
+
+While only toy examples, there is much to learn from this:
+- The two level of models: a model proper is a finite state machine, but the semantics of LTL is defined in terms of infinite execution sequences.
+- The use of non-determinism in defining models.
+- The use of LTL formulas allows to simplify the models significantly.
+- LTL model checking is path-finding in a graph. This can be used for many purposes including planning problems.
+- The solution exemplifies both safetey and lifeness properties.
 
 ## The Model
 
@@ -51,7 +58,11 @@ L1: if
 
 ## Running the Model
 
-**Running a Random Simulation**: To run a random simulation (useful for exploring the model's behavior):
+**Running a Random Simulation**: To run a random simulation (useful for exploring the model's behavior) run first
+```bash
+spin wgc.pml
+```
+and then
 ```bash
 spin wgc.pml | less
 ```
@@ -70,49 +81,55 @@ In this section, we will formalize the rules of the puzzle as a formula in LTL.
 Now we look at how LTL formulas appear in [`wgc.pml`](../examples/Wolf-Goat-Cabbage/wgc.pml):
 
 ```c
-#define atL0 (boat@L0) /*boat on this side of the river */
-#define atL1 (boat@L1) /*boat on the other side of the river */
-#define cond0 (!(bank[wolf]&&bank[goat])&&!(bank[goat]&&bank[cabbage]))
-#define cond1 (!(!bank[wolf]&&!bank[goat])&&!(!bank[goat]&&!bank[cabbage]))
-#define cond2 (bank[wolf]&&bank[goat]&&bank[cabbage])
+#define atL0 (boat@L0) /* boat on the left */
+#define atL1 (boat@L1) /* boat on the right */
+#define cond1 (!(bank[wolf]&&bank[goat])&&!(bank[goat]&&bank[cabbage]))  /* right side ok */
+#define cond0 (!(!bank[wolf]&&!bank[goat])&&!(!bank[goat]&&!bank[cabbage])) /* left side ok */
+#define cond2 (bank[wolf]&&bank[goat]&&bank[cabbage]) /* goal reached */
+
 ```
 
 **Exercise/Activity:** Read the formulas. Match them up against the rules of the game. Questions about Promela can be answered by consulting the [Promela Manual](https://spinroot.com/spin/Man/promela.html). In particular, read the articles about [labels](https://spinroot.com/spin/Man/labels.html), [ltl](https://spinroot.com/spin/Man/ltl.html), , [if](https://spinroot.com/spin/Man/if.html).
 
 ## Verifying LTL properties with Spin
 
-In many applications of Spin, we want to verify that all runs of a model satisfy a certain correctness property. As in SAT-solvers, Spin is doing this by verifying that no run violates the property. In other words, similarly to SAT-solvers and also to Prolog, Spin is searching for a solution that satisfies a formula. In the case of LTL, we can think of the formula as a query and a solution as an infinite run that satisfies the formula. 
+In many applications of Spin, we want to verify that all runs of a model satisfy a certain correctness property. As in SAT-solvers, Spin is doing this by verifying that no run violates the property. In other words, similarly to SAT-solvers and also to Prolog, Spin is only indirectly solving for validity but rather solving for satisfiability. In the case of LTL, we can think of the formula as a query and a solution as an infinite run that satisfies the formula. 
 
 To check a formula with Spin we run through the following. 
 ```bash
 spin -a -f 'FORMULA' wgc.pml
 gcc -o pan pan.c
 ./pan -a
-spin -t -p wgc.pml
+spin -t wgc.pml
 ```
 This does the following. 1. Create the source code of the verifier. 2. Compile the verifier. 3. Run the verifier. 4. Display the error trail (if one was generated).
 
-**Exercise/Activity:** Replace 'FORMULA' by your own formulas and observe whether a trail file is generated. (Careful, old trail files do not get deleted automatically.) Here are some examples
+**Exercise/Activity:** Replace 'FORMULA' by your own formula in
+```bash
+clear
+rm *.trail
+spin -a -f 'FORMULA' wgc.pml
+gcc -o pan pan.c
+./pan -a > /dev/null 2>&1
+spin -t wgc.pml
+```
+and observe whether a trail file is generated. (Careful, old trail files do not get deleted automatically if you don't insert the `rm *.trail`.) Here are some examples, but also make your own:
 - 'true'
 - 'false' 
 - 'atL1'
 - '<>cond2'
-- '[](atL1->cond1)'
+- 'cond0'
+- 'cond1'
+- '[]cond0'
+- '[]cond1'
+- '[](cond0 /\ cond0)'
+
 In each case, formulate the result you expect before you run Spin. Explain carefully whether the result matches your expectation. If a trail file was generated, make sure you understand which run it represents. Always translate formal representations into informal English.
 
-The trail shows a sequence of states that satisfies FORMULA.
+**Exercise/Activity:** Find the formula that produces the solution of the puzzle as its trail file.
 
-```bash
-spin -a -f '([]((atL0->cond0) /\ atL1->cond1) /\ <>cond2)' wgc.pml
-gcc -o pan pan.c
-./pan -a
-spin -t -p wgc.pml
-```
+**Exercise/Homework:** If you want to practice this with a similar but different problem try this [bandits-and-pilgrams template](../src/Bandits-Pilgrims/bp-template.pml).
 
-```bash
-clear
-spin -a -f '[](atL1->cond1)' wgc.pml
-gcc -o pan pan.c
-./pan -a
-spin -t -p wgc.pml
-```
+
+
+

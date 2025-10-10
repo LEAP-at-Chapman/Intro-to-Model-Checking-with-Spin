@@ -16,7 +16,7 @@ L0: do
     ::  skip; /* boat goes to the other side empty */
     fi;
 
-    printf("wolf: %d, goat: %d, cabbage: %d\n",bank[wolf], bank[goat], bank[cabbage]);
+    printf("-> wolf: %d, goat: %d, cabbage: %d\n",bank[wolf], bank[goat], bank[cabbage]);
 
 L1: if
     :: 	bank[wolf]-> bank[wolf]=0;
@@ -25,7 +25,7 @@ L1: if
     ::  skip; /* boat goes back empty */
     fi;
 
-    printf("wolf: %d, goat: %d, cabbage: %d\n",bank[wolf], bank[goat], bank[cabbage]);
+    printf("<- wolf: %d, goat: %d, cabbage: %d\n",bank[wolf], bank[goat], bank[cabbage]);
 
   od
 }
@@ -35,24 +35,23 @@ L1: if
  * Definitions for use in LTL formulas
  * ============================================ */
 
-
-#define atL0 (boat@L0) /*boat on this side of the river */
-#define atL1 (boat@L1) /*boat on the other side of the river */
-#define cond1 (!(bank[wolf]&&bank[goat])&&!(bank[goat]&&bank[cabbage]))
-#define cond0 (!(!bank[wolf]&&!bank[goat])&&!(!bank[goat]&&!bank[cabbage]))
-#define cond2 (bank[wolf]&&bank[goat]&&bank[cabbage])
-
+#define atL0 (boat@L0) /* boat on the left */
+#define atL1 (boat@L1) /* boat on the right */
+#define cond1 (!(bank[wolf]&&bank[goat])&&!(bank[goat]&&bank[cabbage]))  /* right side ok */
+#define cond0 (!(!bank[wolf]&&!bank[goat])&&!(!bank[goat]&&!bank[cabbage])) /* left side ok */
+#define cond2 (bank[wolf]&&bank[goat]&&bank[cabbage]) /* goal reached */
 
 /* ============================================
  * LTL Formulas for Model Checking
  * ============================================
  *
- * Safety Property: wolf can't eat goat and goat can't eat cabbage
- *     []((atL0->cond0) /\ atL1->cond1)
+ * if boat is left then right side ok
+ *     [](atL0->cond1)
+ *
+ * if boat is right then left side ok
+ *     [](atL1->cond0)
  *
  * Safety + Liveness: the problem has a solution
- *     []((atL0->cond0) /\ atL1->cond1) /\ <>cond2
+ *     [](atL0->cond1) && [](atL1->cond0) && <>cond2
  *
- * To find a solution, check the negation (Spin finds counterexamples):
- *     !([]((atL0->cond0) /\ atL1->cond1) /\ <>cond2)
  */

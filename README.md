@@ -2,17 +2,20 @@
 
 (under construction)
 
-I used to give a semester-long course on model checking. For now, I pull out three short introductions to model checking that can be read independently and present the topic from different angles.
+I used to give a semester-long course on model checking. For now, I pull out **three short introductions** to model checking that can be read independently and present the topic from different angles.
 
-- For a highlevel introduction, I like [Model Checking: A Tutorial Overview](https://members.loria.fr/SMerz/papers/mc-tutorial.pdf) by Stephan Merz. I wrote a short meta-tutorial with exercises and code in [Model Checking the Needham-Schroeder Protocol](notes/needham-schroeder.md).
-- For a hands-on introduction to the workings of Spin I present how Spin can be used for path-finding and solving the ... puzzle.
-- For a more indepth analysis of a classic example of concurrency theory ...
+- For a hands-on introduction to the workings of Spin I present how Spin can be used for solving the [Wolf, Goat, Cabbage](notes/Wolf-Goat-Cabbage.md) puzzle.
 
-I also have an [introduction to the introductions](Introduction) at 
+For the next lecture, I will work out two further examples:
+- For a highlevel introduction, I like [Model Checking: A Tutorial Overview](https://members.loria.fr/SMerz/papers/mc-tutorial.pdf) by Stephan Merz. I will write a short meta-tutorial with exercises and code in [Model Checking the Needham-Schroeder Protocol](notes/needham-schroeder.md).
+
+- For a more indepth analysis of a classic example of concurrency theory, I will write one or two tutorials on the mutual exclusion problem.
+
+I also have an [introduction to the introductions](./notes/Introduction.md) which gives a short technical summary of LTL in Spin.
+
 The official webpages of [Spin](https://spinroot.com/spin/whatispin.html) have much information of general interest (highly recommended).
 
-To follow the exercises, you need to install Spin. Last time I followed the [instalation instructions](https://spinroot.com/spin/whatispin.html) I took the following steps (on macos): 
-
+To follow the exercises, you need to install Spin. Last time, I didnt have to follow the [installation instructions](https://spinroot.com/spin/Man/README.html), I just run (on macos): 
 ```
 brew install spin
 ```
