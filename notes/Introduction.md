@@ -35,6 +35,6 @@ $\Phi\models\phi$ if $M\models\Phi$ implies $M\models\phi$ for all models $M$.
 
 $\models\phi$ (read as: $\phi$ is valid) if $M\models\phi$ for all models $M$.
 
-[^1]: $\mathbb{N}=\\\\{0,1,2\ldots\\\\}$ denotes the set of natural numbers; $(v\_n)\_{n\in\mathbb{N}}$, or $(v\_n)$, is short for $(v\_0,v\_1,v\_2\ldots)$. Each $v\_n$ represents a state of the computation. Think of it as the memory and of $v\_n(p)$ as the value of bit $p$ at time $n$.
+[^1]: $\mathbb{N}=\\{0,1,2\ldots\\}$ denotes the set of natural numbers; $(v\_n)\_{n\in\mathbb{N}}$, or $(v\_n)$, is short for $(v\_0,v\_1,v\_2\ldots)$. Each $v\_n$ represents a state of the computation. Think of it as the memory and of $v\_n(p)$ as the value of bit $p$ at time $n$.
 
 
