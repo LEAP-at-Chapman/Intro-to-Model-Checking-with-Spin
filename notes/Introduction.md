@@ -33,7 +33,7 @@ $M\models\Phi$ if $M\models\phi$ for all $\phi\in\Phi$.
 
 $\Phi\models\phi$ if $M\models\Phi$ implies $M\models\phi$ for all models $M$. 
 
-$\models\phi$ (read as '$\phi$ is valid') if $M\models\phi$ for all models $M$.
+$\models\phi$ (read as ``$\phi$ is valid'') if $M\models\phi$ for all models $M$.
 
 [^1]: $\mathbb{N}=\\{0,1,2\ldots\\}$ denotes the set of natural numbers; $(v_n)\_{n\in\mathbb{N}}$, or $(v_n)$, is short for $(v_0,v_1,v_2\ldots)$. Each $v_n$ represents a state of the computation. Think of it as the memory and of $v_n(p)$ as the value of bit $p$ at time $n$.
 
