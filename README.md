@@ -6,7 +6,7 @@ I used to give a semester-long course on model checking. For now, I pull out **t
 
 - Lecture 1: For a hands-on introduction to the workings of Spin I present how Spin can be used for solving the [Wolf, Goat, Cabbage](notes/Wolf-Goat-Cabbage.md) puzzle.
 
-- Lecture 2: For a highlevel introduction, I like [Model Checking: A Tutorial Overview](https://members.loria.fr/SMerz/papers/mc-tutorial.pdf) by Stephan Merz. I will write a short meta-tutorial with exercises and code in [Model Checking the Needham-Schroeder Protocol](notes/needham-schroeder.md).
+- Lecture 2: For a highlevel introduction, I like [Model Checking: A Tutorial Overview](https://members.loria.fr/SMerz/papers/mc-tutorial.pdf) by Stephan Merz. I will write a short meta-tutorial with exercises and code in [Model Checking the Needham-Schroeder Protocol](notes/Needham-Schroeder.md).
 
 - Lecture 3 (not worked out at the moment): For a more indepth analysis of a classic example of concurrency theory, I will write one or two tutorials on the mutual exclusion problem.
 
