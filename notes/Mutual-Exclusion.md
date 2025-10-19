@@ -24,9 +24,9 @@ We finish the tutorial with two examples that are less simple, namely [mutex.pet
 
 (some general background to the mutual exclusion problem in class)
 
-Our first try of programming mutual exclusion is translated into Promela as [mutex.try1.pml](src/mutex.try1.pml) (There is also a slightly different implementation, [mutex.try1-simplified.pml](src/mutex.try1-simplified.pml), of the same algorithm.) 
+Our first try of programming mutual exclusion is translated into Promela as [mutex.try1.pml](../src/Mutual-Exclusion/mutex.try1.pml) (There is also a slightly different implementation, [mutex.try1-simplified.pml](../src/Mutual-Exclusion/mutex.try1-simplified.pml), of the same algorithm.) 
 
-Promela is a pretty straightforward programming language with some special features for concurrency/non-determinism, which I will summarise now. Looking at [mutex.try1-simplified.pml](src/mutex.try1-simplified.pml)
+Promela is a pretty straightforward programming language with some special features for concurrency/non-determinism, which I will summarise now. Looking at [mutex.try1-simplified.pml](../src/Mutual-Exclusion/mutex.try1-simplified.pml)
 
 ```C
 bool	flag[2];
@@ -207,7 +207,7 @@ spin mutex.try2.pml | more
 
 The answer is "yes" and the idea how to do it is to insert an assertion into the program. This insertion can then be verified by Spin.
 
-**Discussion:** Explain the purpose of the `assert` in [`mutex.try2.2.pml`](src/mutex.try2.2.pml). What is the variable `count` counting? What is the assertion asserting? Here is the code:
+**Discussion:** Explain the purpose of the `assert` in [mutex.try2.2.pml](../src/Mutual-Exclusion/mutex.try2.2.pml). What is the variable `count` counting? What is the assertion asserting? Here is the code:
 ```c
 bool	turn;
 byte	count;
@@ -255,7 +255,7 @@ cc -o pan pan.c
 (Spin Version 6.5.1 -- 20 December 2019)
 ```
 
-No assertion violation is recorded. **This proves that none of the infinitely many execution sequences of [`mutex.try2.2.pml`](src/mutex.try2.2.pml) violates mutual exclusion.** To see what happens if there is some execution sequence that violates the assertion, let us compare this with [`mutex.stupid.pml`](src/mutex.stupid.pml).
+No assertion violation is recorded. **This proves that none of the infinitely many execution sequences of [mutex.try2.2.pml](../src/Mutual-Exclusion/mutex.try2.2.pml) violates mutual exclusion.** To see what happens if there is some execution sequence that violates the assertion, let us compare this with [mutex.stupid.pml](../src/Mutual-Exclusion/mutex.stupid.pml).
 
 ```c
 spin -a mutex.stupid.pml
