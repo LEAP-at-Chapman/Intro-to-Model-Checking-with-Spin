@@ -221,3 +221,4 @@ ltl {[]  (success && bobAlice -> aliceBob)}
 
 */
 
+ltl {[]  (success && bobAlice -> aliceBob)}

@@ -8,7 +8,7 @@ I used to give a semester-long course on model checking. For now, I pull out **t
 
 - Lecture 2: For a highlevel introduction, I like [Model Checking: A Tutorial Overview](https://members.loria.fr/SMerz/papers/mc-tutorial.pdf) by Stephan Merz. I will write a short meta-tutorial with exercises and code in [Model Checking the Needham-Schroeder Protocol](notes/Needham-Schroeder.md).
 
-- Lecture 3 (not worked out at the moment): For a more indepth analysis of a classic example of concurrency theory, I will write one or two tutorials on the mutual exclusion problem.
+- Lecture 3: For a more indepth analysis of a classic example of concurrency theory, see [Mutual-Exclusion.md](notes/Mutual-Exclusion.md).
 
 I also have an [introduction to the introductions](./notes/Introduction.md) which gives a short technical summary of LTL in Spin.
 

@@ -1,4 +1,4 @@
-# Model Checking with Spin - Tutorial 2 (Needham-Schroeder)
+# Model Checking the Needham-Schroeder Protocol with Spin
 
 This lecture is based on Section 2 of the article (which is required background for this write-up)
 
@@ -70,28 +70,32 @@ For example, if the violated assertion is `[]  (success && bobAlice -> aliceBob)
 We run the tool as follows. Choose one of the formulas at the end of the program `ns.pml` and uncomment it. Then run
 
 ```
-spin -a ns.pml; cc -o pan pan.c; ./pan -a
+clear
+rm *.trail
+spin -a ns.pml 
+cc -o pan pan.c
+./pan -a
 ```
 
-**Exercise:** Which of the two formulas is verified as correct and which one is violated? What do we learn from this about the correctness of the protocol? 
+**Exercise:** Which of the two formulas is verified as correct and which one is violated?[^Which] What do we learn from this about the correctness of the protocol? 
 
-**Exercise:** The property that is violated produces an execution sequence. How long is that execution sequence? 
+[^Which]: You can look for "error" in the output or you can look whether there was an error trail produced.
 
-The execution sequence in question is stored in the file `ns.pml.trail`. It can be inspected via
+**Exercise:** The property that is violated produces an execution sequence. How long is that execution sequence?[^How]
 
-```
-spin -p -t ns.pml
-```
+[^How]: You can inspect the trail file with `spin -t ns.pml` or `spin -t -p ns.pml`.
 
-but it is more convenient to output a message sequence chart (which only shows the messages that are sent between the processes). This requires to install Tcl/Tk first (I did `brew install tcl-tk@8.5`). After that one can run
+Inspecting `ns.pml.trail` with `spin -p -t ns.pml` yields output that is not eaily readable. Here are some things you can do about this.
 
+First, you can run `spin -p -t ns.pml | grep network`. This shows all the messages that were sent. It takes some patience but it is not difficult, to extract the attack from there.
+
+Second, one can create a message sequence chart (MSC). This requires to install Tcl/Tk first (I did ` install tcl-tk@8.5`). After that one can run
 ```
 spin -M -t ns.pml
 ```
+This opens a window with the MSC (via `wish -f ns.pml.tcl`) showing the attack.
 
-(Alternatively, run `spin -p -t ns.pml | grep network` and reconstruct the MCS by hand.)
-
-For illustration, I display here the message sequence chart (MSC) for a normal run of the protocol. (Check that this picture aligns with Fig. 1 above.)
+For illustration, and in order not to spoil the ending, I display here the message sequence chart (MSC) for a normal run of the protocol. (Check that this picture aligns with Fig. 1 above.)
 
 ![](img/ns.pml.normal.png)
 
@@ -108,9 +112,9 @@ Here are some hints of how to read the message sequence chart:
 
 ## The Correction Proposed by Lowe
 
-Gavin Lowe in the famous article [An attack on the Needham-Schroeder public-key authentication protocol](https://citeseerx.ist.psu.edu/doc/10.1.1.394.6094) went through the steps above (with a different model checker). He was the first to discover the successful attack and he proposed the following correction.
+Gavin Lowe in the famous article [An attack on the Needham-Schroeder public-key authentication protocol](https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q=+An+attack+on+the+Needham-Schroeder+public-key+authentication+protocol&btnG=) went through the steps above (with a different model checker). He was the first to discover the successful attack and he proposed the following correction.
 
-To avoid the attack the second message should be replace by $$<B,N_A,N_B>_A$$
+To avoid the attack the second message should be replaced by $$<B,N_A,N_B>_A$$
 
 ## Verifying the Needham-Schroeder-Lowe Protocol
 
