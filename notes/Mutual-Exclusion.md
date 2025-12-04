@@ -289,31 +289,19 @@ Here are some ideas to guide your analysis:
 ## Summary of Commands
 
 ```
-# simulation run
-
+    ##### simulation run
 spin mutex.try1.pml
 
-############################################
-# verification mode with option -a
-# produces a C program pan.c 
-# which is compiled with cc into a file pan
-# and executed via ./pan
-
+    ##### verification mode
 spin -a mutex.try1.pml
 cc -o pan pan.c
 ./pan 
 
-############################################
-# first three lines are as above
-# the next two find the shortest error trace
-# (the `7` is derived from the output of `.pan`)
-# the last line displays the error trace
-
-spin -a mutex.try1.pml
-cc -o pan pan.c
-./pan 
+    #### reduce lengths of error trail 
 cc -DREACH -o pan pan.c
 ./pan -i -m7
+
+    #### show error trail 
 spin -p -t mutex.try1.pml
 ```
 
