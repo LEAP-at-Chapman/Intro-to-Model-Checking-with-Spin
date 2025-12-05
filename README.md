@@ -14,7 +14,7 @@ I also have an [introduction to the introductions](./notes/Introduction.md) whic
 
 The official webpages of [Spin](https://spinroot.com/spin/whatispin.html) have much information of general interest (highly recommended).
 
-To follow the exercises, you need to install Spin. Last time, I didnt have to follow the [installation instructions](https://spinroot.com/spin/Man/README.html), I just run (on macos): 
+To follow the exercises, you need to install Spin. Last time, I ignored the [installation instructions](https://spinroot.com/spin/Man/README.html) and just run (on macos): 
 ```
 brew install spin
 ```
