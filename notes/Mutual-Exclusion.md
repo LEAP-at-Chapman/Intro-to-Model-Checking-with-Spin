@@ -289,20 +289,19 @@ Here are some ideas to guide your analysis:
 ## Summary of Commands
 
 ```
-    ##### simulation run
-spin mutex.try1.pml
-
     ##### verification mode
-spin -a mutex.try1.pml
+spin -a mutex.peterson-a.pml
 cc -o pan pan.c
 ./pan 
 
     #### reduce lengths of error trail 
-cc -DREACH -o pan pan.c
-./pan -i -m7
+./pan -i 
 
     #### show error trail 
-spin -p -t mutex.try1.pml
+spin -p -t mutex.peterson-a.pml
+
+    ##### simulation run
+spin mutex.peterson-a.pml
 ```
 
 ## References
