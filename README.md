@@ -1,12 +1,12 @@
 # Introduction to Model Checking with Spin
 
-(under construction)
+([on github](https://github.com/LEAP-at-Chapman/Intro-to-Model-Checking-with-Spin))
 
-I used to give a semester-long course on model checking. For now, I pull out **three short introductions** to model checking that can be read independently and present the topic from different angles.
+I used to give a semester-long course on software reliability with a focus on model checking. For now, I pull out **three short introductions** to model checking that can be read independently and present the topic from different angles.
 
-- Lecture 1: For a hands-on introduction to the workings of Spin I present how Spin can be used for solving the [Wolf, Goat, Cabbage](notes/Wolf-Goat-Cabbage.md) puzzle.
+- Lecture 1: For a hands-on introduction to model checking with temporal logic, I present how Spin can be used for solving the [Wolf, Goat, Cabbage](notes/Wolf-Goat-Cabbage.md) puzzle.
 
-- Lecture 2: For a highlevel introduction, I like [Model Checking: A Tutorial Overview](https://members.loria.fr/SMerz/papers/mc-tutorial.pdf) by Stephan Merz. I will write a short meta-tutorial with exercises and code in [Model Checking the Needham-Schroeder Protocol](notes/Needham-Schroeder.md).
+- Lecture 2: For a highlevel introduction, I like [Model Checking: A Tutorial Overview](https://members.loria.fr/SMerz/papers/mc-tutorial.pdf) by Stephan Merz. I wrote a short meta-tutorial with exercises and code in [Model Checking the Needham-Schroeder Protocol](notes/Needham-Schroeder.md).
 
 - Lecture 3: For a more indepth analysis of a classic example of concurrency theory, see [Mutual-Exclusion.md](notes/Mutual-Exclusion.md).
 
